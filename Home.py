@@ -120,38 +120,7 @@ if uploaded_pdf is not None:
             with open(chapter_filename, "w", encoding="utf-8") as file:
                 file.write(chapter_text)
             st.success(f"Chapter {chapter_index} saved successfully!")
-        first_input_prompt = PromptTemplate(input_variables = ['chapter_text'],
-                                                template="Résumez le texte suivant en utilisant un langage clair et concis, en vous concentrant sur les événements clés, les personnages principaux, les conflits et les résolutions. Assurez-vous d'inclure toutes les informations importantes tout en évitant les répétitions inutiles. utilisez le format markdown pour la réponse avec tous les éléments d'un résumé faites le en français  : {chapter_text}"
-                                                )
-            # AI LLMS
-
-        llm = ChatMistralAI(api_key=api_key, temperature=0.8, model="mistral-medium-latest")
-        #LLM Chain
-        chain1  = LLMChain(llm=llm, prompt = first_input_prompt, verbose=True, output_key = 'summaryofchapter')
-
-           # Create an expander for each chain
-        with st.expander("Chain 1: Summary of Chapter"):
-            if st.button("Run Chain 1"):
-                total['summaryofchapter']=run_chain(chain1, {'chapter_text': chapter_text})
-                st.success("Chain 1: Summary of Chapter executed successfully!")
-                
-        st.markdown(total)
-
-        with st.expander("Chain 2: Chapter Full Info"):
-            if st.button("Run Chain 2"):
-                run_chain(chain2, {'chapter_text': chapter_text})
-
-        with st.expander("Chain 3: Coherence Information"):
-            if st.button("Run Chain 3"):
-                run_chain(chain3, {'chapter_text': chapter_text, 'summaryofchapter': total['summaryofchapter'], 'chapterfullinfo': total['chapterfullinfo']})
-
-        with st.expander("Chain 4: Manga Scenario"):
-            if st.button("Run Chain 4"):
-                run_chain(chain4, {'chapter_text': chapter_text, 'chapterfullinfo': total['chapterfullinfo']})
-
-        with st.expander("Chain 5: Sequencier"):
-            if st.button("Run Chain 5"):
-                run_chain(chain5, {'chapter_text': chapter_text, 'scénario manga': total['scénario manga']}) 
+        
 
         if st.button('process chapter', key=f'process_{chapter_index}'):
                         
