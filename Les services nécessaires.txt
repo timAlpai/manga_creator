@@ -1,0 +1,1 @@
+groq-api https://groq.com ouvrir un compte et avoir une clé api a mettre dans .streamlit/secrets.toml 

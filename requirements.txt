@@ -1,0 +1,7 @@
+streamlit
+crewai
+crewai[tools]
+langchain
+langchain-mistralai
+fitz
+PyMuPDF
