@@ -130,7 +130,7 @@ if uploaded_pdf is not None:
                                                 )
             # AI LLMS
 
-            llm = ChatMistralAI(api_key=api_key, temperature=0.8, model="mistral-medium-latest")
+            llm = ChatMistralAI(api_key=api_key, temperature=0.8, model="mistral-large-latest")
             #LLM Chain
             chain1  = LLMChain(llm=llm, prompt = first_input_prompt, verbose=True, output_key = 'summaryofchapter')
 
@@ -154,12 +154,12 @@ if uploaded_pdf is not None:
             chain3  = LLMChain(llm=llm, prompt = third_input_prompt, verbose=True, output_key = 'cohérence information')
             #, 'summaryofchapter'
             fourth_input_prompt= PromptTemplate(input_variables=['chapterfullinfo','chapter_text'],
-                                                template="il est important de respecter ces règles. Créez un scénario de manga en trois chapitres, avec trois planches par chapitre et six cases par planche, à partir du texte original et de la liste d'informations fournis. Chaque chapitre devrait se concentrer sur un événement clé de l'histoire, avec une introduction, un développement et une conclusion clairs. Chaque planche devrait se concentrer sur un personnage principal ou un conflit important, en utilisant des techniques de narration visuelle pour rendre l'histoire plus engageante. Fournissez des détails spécifiques sur les éléments clés à inclure dans chaque chapitre et chaque planche. Pensez étape par étape le format de votre réponse est markdown fais le en français :\n  texte originale : {chapter_text}\n informations complètes: {chapterfullinfo}\n "
+                                                template="il est important de respecter ces règles. Créez un scénario de manga en trois chapitres, avec trois planches par chapitre et six cases par planche, à partir du texte original et de la liste d'informations fournis. Chaque chapitre devrait se concentrer sur un événement clé de l'histoire, avec une introduction, un développement et une conclusion clairs. Chaque planche devrait se concentrer sur un personnage principal ou un conflit important, en utilisant des techniques de narration visuelle pour rendre l'histoire plus engageante. Fournissez des détails spécifiques sur les éléments clés à inclure dans chaque chapitre et chaque planche. Pensez étape par étape le format de votre réponse est markdown et liste, fais le en français :\n  texte originale : {chapter_text}\n informations complètes: {chapterfullinfo}\n "
                                                 )
             chain4=LLMChain(llm=llm, prompt = fourth_input_prompt, verbose=True, output_key = 'scénario manga')
             
-            fifth_input_prompt  = PromptTemplate(input_variables=['chapter_text' , 'scénario manga'],
-                                                template="il est important de suivres et respecter ces règles. Créez un séquencier détaillé pour le scénario de manga fourni, en décrivant le contenu graphique et scénaristique de chaque case. Chaque case devrait se concentrer sur utilisez des techniques de narration visuelle pour rendre chaque case plus engageante, telles que des angles de caméra intéressants, des expressions faciales évocatrices et des effets sonores. Fournissez des détails spécifiques sur les éléments clés à inclure dans chaque case scénario format de sortie markdown faites le en français scénario : {scénario manga} chapitre de référence : {chapter_text}\n"
+            fifth_input_prompt  = PromptTemplate(input_variables=['chapterfullinfo' , 'scénario manga'],
+                                                template="il est important de suivres et respecter ces règles. Créez un séquencier détaillé pour le scénario de manga fourni, en décrivant le contenu graphique et scénaristique de chaque case. Chaque case devrait se concentrer sur utilisez des techniques de narration visuelle pour rendre chaque case plus engageante, telles que des angles de caméra intéressants, des expressions faciales évocatrices et des effets sonores. Fournissez des détails spécifiques sur les éléments clés à inclure dans chaque case scénario. Pensez étape par étape le format de votre réponse est markdown  et liste, fais le en français :\n {scénario manga}  référence : {chapterfullinfo}\n"
             )
             chain5 = LLMChain(llm=llm, prompt=fifth_input_prompt,verbose=True, output_key='sequencier')
 
